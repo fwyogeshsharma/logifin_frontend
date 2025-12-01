@@ -1,0 +1,103 @@
+# docker/docker-compose.yml
+
+version: '3.9'
+
+services:
+  # ═══════════════════════════════════════════════════════════════
+  # LOCAL DEVELOPMENT
+  # ═══════════════════════════════════════════════════════════════
+  local:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    container_name: logifin-frontend-local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../src:/app/src:delegated
+      - ../public:/app/public:delegated
+      - /app/node_modules
+    env_file:
+      - ../config/.env.local
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - logifin-network
+    profiles:
+      - local
+
+  # ═══════════════════════════════════════════════════════════════
+  # TEST ENVIRONMENT
+  # ═══════════════════════════════════════════════════════════════
+  test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: production
+      args:
+        APP_ENV: test
+    container_name: logifin-frontend-test
+    ports:
+      - "8080:80"
+    env_file:
+      - ../config/.env.test
+    networks:
+      - logifin-network
+    profiles:
+      - test
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════
+  # DEMO ENVIRONMENT
+  # ═══════════════════════════════════════════════════════════════
+  demo:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: production
+      args:
+        APP_ENV: demo
+    container_name: logifin-frontend-demo
+    ports:
+      - "8081:80"
+    env_file:
+      - ../config/.env.demo
+    networks:
+      - logifin-network
+    profiles:
+      - demo
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════
+  # PRODUCTION ENVIRONMENT
+  # ═══════════════════════════════════════════════════════════════
+  prod:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: production
+      args:
+        APP_ENV: prod
+    container_name: logifin-frontend-prod
+    ports:
+      - "80:80"
+    env_file:
+      - ../config/.env.prod
+    networks:
+      - logifin-network
+    profiles:
+      - prod
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+networks:
+  logifin-network:
+    driver: bridge

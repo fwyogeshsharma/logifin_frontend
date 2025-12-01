@@ -1,0 +1,129 @@
+/* src/styles/breakpoints.css */
+
+/*
+ * Breakpoint System
+ * Mobile First Approach
+ *
+ * xs: 0px      - Extra small devices (phones portrait)
+ * sm: 576px    - Small devices (phones landscape)
+ * md: 768px    - Medium devices (tablets)
+ * lg: 992px    - Large devices (desktops)
+ * xl: 1200px   - Extra large devices (large desktops)
+ * xxl: 1400px  - Extra extra large devices (4K screens)
+ */
+
+:root {
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+}
+
+/*
+ * Usage Examples:
+ *
+ * Mobile First (min-width) - RECOMMENDED
+ * @media (min-width: 576px) { } - sm and up
+ * @media (min-width: 768px) { } - md and up
+ * @media (min-width: 992px) { } - lg and up
+ * @media (min-width: 1200px) { } - xl and up
+ * @media (min-width: 1400px) { } - xxl and up
+ *
+ * Desktop First (max-width) - Use sparingly
+ * @media (max-width: 575.98px) { } - xs only
+ * @media (max-width: 767.98px) { } - sm and down
+ * @media (max-width: 991.98px) { } - md and down
+ * @media (max-width: 1199.98px) { } - lg and down
+ * @media (max-width: 1399.98px) { } - xl and down
+ */
+
+/* Hide utilities */
+.hide-xs {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .hide-xs {
+    display: block;
+  }
+  .hide-sm {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .hide-sm {
+    display: block;
+  }
+  .hide-md {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .hide-md {
+    display: block;
+  }
+  .hide-lg {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hide-lg {
+    display: block;
+  }
+  .hide-xl {
+    display: none;
+  }
+}
+
+@media (min-width: 1400px) {
+  .hide-xl {
+    display: block;
+  }
+  .hide-xxl {
+    display: none;
+  }
+}
+
+/* Show utilities (mobile first) */
+.show-sm,
+.show-md,
+.show-lg,
+.show-xl,
+.show-xxl {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .show-sm {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .show-md {
+    display: block;
+  }
+}
+
+@media (min-width: 992px) {
+  .show-lg {
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+  .show-xl {
+    display: block;
+  }
+}
+
+@media (min-width: 1400px) {
+  .show-xxl {
+    display: block;
+  }
+}

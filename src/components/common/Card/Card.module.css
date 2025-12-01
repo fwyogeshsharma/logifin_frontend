@@ -1,0 +1,54 @@
+/* src/components/common/Card/Card.module.css */
+
+.card {
+  position: relative;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card--hoverable:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card--noPadding {
+  padding: 0;
+}
+
+/* Card Header */
+.header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+/* Card Content */
+.content {
+  padding: var(--spacing-lg);
+}
+
+.card--noPadding .content {
+  padding: 0;
+}
+
+/* Card Footer */
+.footer {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--color-border-light);
+  background-color: var(--color-background-secondary);
+}
+
+/* Gradient accent decoration */
+.gradientAccent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 64px;
+  height: 64px;
+  background: var(--gradient-primary);
+  opacity: 0.1;
+  border-bottom-left-radius: var(--radius-full);
+}

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl --shutdown)",
+      "Bash(powershell -Command \"wsl --shutdown\")",
+      "Bash(powershell:*)",
+      "Bash(cmd /c \"tasklist | findstr wsl\")",
+      "Bash(cmd /c \"wsl.exe --shutdown\")",
+      "Bash(cmd /c \"wsl -l -v\")",
+      "Bash(cmd /c \"wsl --unregister docker-desktop-data\")",
+      "Bash(cmd /c \"wsl --unregister docker-desktop\")",
+      "Bash(cmd /c \"wsl --update\")",
+      "Bash(cmd /c \"wsl --set-default-version 2\")",
+      "Bash(cmd /c \"wsl --shutdown\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
