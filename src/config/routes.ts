@@ -46,6 +46,8 @@ export const ROUTES = {
   REGISTER: '/register',
   PROFILE: '/profile',
   SETTINGS: '/settings',
+  TERMS: '/terms',
+  PRIVACY: '/privacy',
   NOT_FOUND: '/404',
 } as const;
 

@@ -201,8 +201,8 @@ const Login = memo(function Login(): JSX.Element {
 
             <p className={styles.terms}>
               By signing in, you agree to our{' '}
-              <a href="/terms">Terms of Service</a> and{' '}
-              <a href="/privacy">Privacy Policy</a>
+              <Link to={ROUTES.TERMS}>Terms of Service</Link> and{' '}
+              <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
             </p>
           </div>
         </div>

@@ -494,8 +494,8 @@ const Signup = memo(function Signup(): JSX.Element {
 
             <p className={styles.terms}>
               By creating an account, you agree to our{' '}
-              <a href="/terms">Terms of Service</a> and{' '}
-              <a href="/privacy">Privacy Policy</a>
+              <Link to={ROUTES.TERMS}>Terms of Service</Link> and{' '}
+              <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
             </p>
 
             <div className={styles.divider}>
