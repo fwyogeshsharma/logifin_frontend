@@ -19,8 +19,8 @@ const getEnvConfig = (): EnvConfig => {
 
   return {
     env,
-    apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api',
-    wsUrl: import.meta.env.VITE_WS_URL || 'ws://localhost:3001',
+    apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://34.93.247.3:5000/api/v1',
+    wsUrl: import.meta.env.VITE_WS_URL || 'ws://34.93.247.3:5000',
     enableMock: import.meta.env.VITE_ENABLE_MOCK === 'true',
     debugMode: import.meta.env.VITE_DEBUG_MODE === 'true',
     logLevel: (import.meta.env.VITE_LOG_LEVEL || 'debug') as EnvConfig['logLevel'],

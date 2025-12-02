@@ -6,6 +6,8 @@ import { Spinner } from '@/components/common';
 
 // Lazy load pages for code splitting
 const Landing = lazy(() => import('@/pages/Landing'));
+const Login = lazy(() => import('@/pages/Login'));
+const Signup = lazy(() => import('@/pages/Signup'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
@@ -19,6 +21,8 @@ function App(): JSX.Element {
       <Suspense fallback={<Spinner fullPage label="Loading..." />}>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

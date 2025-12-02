@@ -167,7 +167,7 @@ const renderStepIcon = (iconType: StepItem['iconType']): JSX.Element => {
  */
 const Landing = memo(function Landing(): JSX.Element {
   const handleGetStarted = useCallback((): void => {
-    window.location.href = '/auth';
+    window.location.href = '/login';
   }, []);
 
   const handleLearnMore = useCallback((): void => {

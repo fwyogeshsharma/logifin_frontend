@@ -1,37 +1,56 @@
 /* src/styles/variables.css */
 
 :root {
-  /* LogiFin Brand Colors */
-  /* Primary: Deep blue - trust, finance (rgb(8, 69, 112)) */
-  --color-primary: #084570;
-  --color-primary-hover: #063552;
-  --color-primary-light: #e6f0f7;
-  --color-primary-dark: #042a42;
+  /* LogiFin Brand Colors - Based on #2677ca */
+  /* Primary Blue Palette */
+  --color-primary-50: #f0f7fd;
+  --color-primary-100: #dbeefb;
+  --color-primary-200: #bfe0f8;
+  --color-primary-300: #93cdf3;
+  --color-primary-400: #5fb1eb;
+  --color-primary-500: #2677ca;  /* Main brand color */
+  --color-primary-600: #1e5fa3;
+  --color-primary-700: #1a4f88;
+  --color-primary-800: #194470;
+  --color-primary-900: #1a3a5c;
+  --color-primary-950: #112640;
 
-  /* Secondary: Green - money, growth (rgb(29, 146, 60)) */
-  --color-secondary: #1d923c;
-  --color-secondary-hover: #167a30;
-  --color-secondary-light: #e8f5eb;
+  /* Primary aliases for backward compatibility */
+  --color-primary: #2677ca;
+  --color-primary-hover: #1e5fa3;
+  --color-primary-light: #e8f4fc;
+  --color-primary-dark: #1a4f88;
+  --color-primary-darker: #194470;
 
-  /* Accent (uses secondary green) */
-  --color-accent: #1d923c;
-  --color-accent-hover: #167a30;
-  --color-accent-light: #e8f5eb;
+  /* Secondary: Lighter blue tones */
+  --color-secondary: #4a91d9;
+  --color-secondary-hover: #2677ca;
+  --color-secondary-light: #dbeefb;
+
+  /* Accent: Complementary teal-blue */
+  --color-accent: #1a8cba;
+  --color-accent-hover: #157a9e;
+  --color-accent-light: #e0f4fa;
 
   /* Status Colors */
-  --color-success: #28a745;
-  --color-success-hover: #1e7e34;
-  --color-danger: #dc3545;
-  --color-danger-hover: #bd2130;
-  --color-warning: #ffc107;
-  --color-warning-hover: #d39e00;
-  --color-info: #17a2b8;
-  --color-info-hover: #117a8b;
+  --color-success: #22c55e;
+  --color-success-hover: #16a34a;
+  --color-success-light: #dcfce7;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-danger-light: #fee2e2;
+  --color-warning: #f59e0b;
+  --color-warning-hover: #d97706;
+  --color-warning-light: #fef3c7;
+  --color-info: #2677ca;
+  --color-info-hover: #1e5fa3;
+  --color-info-light: #dbeefb;
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #084570 0%, #0a5a8f 100%);
-  --gradient-secondary: linear-gradient(135deg, #1d923c 0%, #25b84c 100%);
-  --gradient-hero: linear-gradient(135deg, #084570 0%, #1d923c 100%);
+  /* Gradients - Blue themed */
+  --gradient-primary: linear-gradient(135deg, #1a4f88 0%, #2677ca 100%);
+  --gradient-secondary: linear-gradient(135deg, #2677ca 0%, #4a91d9 100%);
+  --gradient-hero: linear-gradient(135deg, #112640 0%, #2677ca 100%);
+  --gradient-light: linear-gradient(135deg, #f0f7fd 0%, #dbeefb 100%);
 
   --color-text-primary: #212529;
   --color-text-secondary: #6c757d;

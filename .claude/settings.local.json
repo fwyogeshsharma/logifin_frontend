@@ -11,7 +11,10 @@
       "Bash(cmd /c \"wsl --unregister docker-desktop\")",
       "Bash(cmd /c \"wsl --update\")",
       "Bash(cmd /c \"wsl --set-default-version 2\")",
-      "Bash(cmd /c \"wsl --shutdown\")"
+      "Bash(cmd /c \"wsl --shutdown\")",
+      "WebFetch(domain:34.93.247.3)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

@@ -11,7 +11,7 @@ export const ENDPOINTS = {
     LOGIN: '/auth/login',
     LOGOUT: '/auth/logout',
     REGISTER: '/auth/register',
-    REFRESH: '/auth/refresh',
+    REFRESH: '/auth/refresh-token',
     FORGOT_PASSWORD: '/auth/forgot-password',
     RESET_PASSWORD: '/auth/reset-password',
     VERIFY_EMAIL: '/auth/verify-email',
@@ -44,5 +44,11 @@ export const ENDPOINTS = {
   UPLOAD: {
     FILE: '/upload/file',
     IMAGE: '/upload/image',
+  },
+
+  // Roles
+  ROLES: {
+    BASE: '/roles',
+    BY_ID: (id: string) => `/roles/${id}`,
   },
 } as const;

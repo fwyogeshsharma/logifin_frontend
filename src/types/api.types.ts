@@ -43,20 +43,38 @@ export interface ApiRequestConfig {
 export interface LoginRequest {
   email: string;
   password: string;
-  rememberMe?: boolean;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  companyName?: string;
+  role?: string; // Role ID from /api/v1/roles (e.g., Role_lender, Role_transporter, Role_shipper)
+}
+
+export interface AuthUser {
+  id: ID;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  companyName?: string;
+  role: string;
 }
 
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  expiresIn: number;
-  user: {
-    id: ID;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-  };
+  expiresIn?: number;
+  user: AuthUser;
+}
+
+export interface RegisterResponse {
+  message: string;
+  user?: AuthUser;
 }
 
 export interface RefreshTokenRequest {
