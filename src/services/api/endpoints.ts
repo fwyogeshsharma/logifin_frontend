@@ -51,4 +51,11 @@ export const ENDPOINTS = {
     BASE: '/roles',
     BY_ID: (id: string) => `/roles/${id}`,
   },
+
+  // Companies
+  COMPANIES: {
+    BASE: '/companies',
+    BY_ID: (id: number) => `/companies/${id}`,
+    SEARCH: '/companies',
+  },
 } as const;

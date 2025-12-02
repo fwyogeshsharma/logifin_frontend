@@ -3,10 +3,12 @@
 import { memo, useState, useCallback, useEffect, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input, Spinner } from '@/components/common';
+import { CompanySearch, AddCompanyModal } from '@/components/forms';
 import { authService } from '@/services/auth';
 import { rolesService, type Role } from '@/services/roles';
+import { type Company } from '@/services/companies';
 import { ROUTES } from '@/config/routes';
-import type { RegisterRequest, ApiError } from '@/types/api.types';
+import type { ApiError } from '@/types/api.types';
 import styles from './Signup.module.css';
 
 // Icons
@@ -30,16 +32,6 @@ const PhoneIcon = (): JSX.Element => (
   </svg>
 );
 
-const BuildingIcon = (): JSX.Element => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M3 21h18" />
-    <path d="M5 21V7l8-4v18" />
-    <path d="M19 21V11l-6-4" />
-    <path d="M9 9h1" />
-    <path d="M9 13h1" />
-    <path d="M9 17h1" />
-  </svg>
-);
 
 const LockIcon = (): JSX.Element => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -80,19 +72,19 @@ const CheckIcon = (): JSX.Element => (
   </svg>
 );
 
-// Role ID to UI mapping
+// Role name to UI mapping
 const ROLE_CONFIG: Record<string, { label: string; description: string; icon: JSX.Element }> = {
-  Role_shipper: {
+  ROLE_SHIPPER: {
     label: 'Shipper',
     description: 'I have goods to transport',
     icon: <PackageIcon />,
   },
-  Role_transporter: {
+  ROLE_TRANSPORTER: {
     label: 'Transporter',
     description: 'I provide trucking services',
     icon: <TruckIcon />,
   },
-  Role_lender: {
+  ROLE_LENDER: {
     label: 'Lender',
     description: 'I want to finance trips',
     icon: <WalletIcon />,
@@ -100,11 +92,16 @@ const ROLE_CONFIG: Record<string, { label: string; description: string; icon: JS
 };
 
 // Filter order - show roles in this specific order
-const ROLE_ORDER = ['Role_shipper', 'Role_transporter', 'Role_lender'];
+const ROLE_ORDER = ['ROLE_SHIPPER', 'ROLE_TRANSPORTER', 'ROLE_LENDER'];
 
-interface FormData extends Omit<RegisterRequest, 'role'> {
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
   confirmPassword: string;
-  roleId: string;
+  phone: string;
+  roleId: number | null;
 }
 
 /**
@@ -116,19 +113,23 @@ const Signup = memo(function Signup(): JSX.Element {
   const [roles, setRoles] = useState<Role[]>([]);
   const [rolesLoading, setRolesLoading] = useState(true);
   const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    firstName: '',
-    lastName: '',
     phone: '',
-    companyName: '',
-    roleId: '',
+    roleId: null,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // Company search state
+  const [companySearchValue, setCompanySearchValue] = useState('');
+  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
+  const [showAddCompanyModal, setShowAddCompanyModal] = useState(false);
 
   // Fetch roles from API
   useEffect(() => {
@@ -138,8 +139,8 @@ const Signup = memo(function Signup(): JSX.Element {
         if (response.success && response.data) {
           // Filter only the roles we want and sort by our defined order
           const filteredRoles = response.data
-            .filter((role) => ROLE_ORDER.includes(role.id))
-            .sort((a, b) => ROLE_ORDER.indexOf(a.id) - ROLE_ORDER.indexOf(b.id));
+            .filter((role) => ROLE_ORDER.includes(role.roleName))
+            .sort((a, b) => ROLE_ORDER.indexOf(a.roleName) - ROLE_ORDER.indexOf(b.roleName));
 
           setRoles(filteredRoles);
 
@@ -204,8 +205,27 @@ const Signup = memo(function Signup(): JSX.Element {
     []
   );
 
-  const handleRoleChange = useCallback((roleId: string): void => {
+  const handleRoleChange = useCallback((roleId: number): void => {
     setFormData((prev) => ({ ...prev, roleId }));
+  }, []);
+
+  // Company handlers
+  const handleCompanySearchChange = useCallback((value: string): void => {
+    setCompanySearchValue(value);
+  }, []);
+
+  const handleCompanySelect = useCallback((company: Company | null): void => {
+    setSelectedCompany(company);
+  }, []);
+
+  const handleAddCompanyClick = useCallback((): void => {
+    setShowAddCompanyModal(true);
+  }, []);
+
+  const handleAddCompanySuccess = useCallback((company: Company): void => {
+    setSelectedCompany(company);
+    setCompanySearchValue(company.name);
+    setShowAddCompanyModal(false);
   }, []);
 
   const handleSubmit = useCallback(
@@ -214,14 +234,23 @@ const Signup = memo(function Signup(): JSX.Element {
 
       if (!validateForm()) return;
 
+      if (!formData.roleId) {
+        setApiError('Please select a role');
+        return;
+      }
+
       setIsLoading(true);
       setApiError(null);
 
       try {
-        const { confirmPassword, roleId, ...restFormData } = formData;
         const registerData = {
-          ...restFormData,
-          role: roleId, // Send role ID to the API
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phone || undefined,
+          roleId: formData.roleId,
+          companyId: selectedCompany?.id,
         };
         const response = await authService.register(registerData);
         if (response.success) {
@@ -237,7 +266,7 @@ const Signup = memo(function Signup(): JSX.Element {
         setIsLoading(false);
       }
     },
-    [formData, validateForm, navigate]
+    [formData, selectedCompany, validateForm, navigate]
   );
 
   return (
@@ -357,7 +386,7 @@ const Signup = memo(function Signup(): JSX.Element {
                 ) : (
                   <div className={styles.roleOptions}>
                     {roles.map((role) => {
-                      const config = ROLE_CONFIG[role.id];
+                      const config = ROLE_CONFIG[role.roleName];
                       if (!config) return null;
 
                       return (
@@ -427,32 +456,27 @@ const Signup = memo(function Signup(): JSX.Element {
                 leftAddon={<MailIcon />}
               />
 
-              <div className={styles.row}>
-                <Input
-                  label="Phone (Optional)"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone || ''}
-                  onChange={handleInputChange}
-                  error={errors.phone}
-                  placeholder="+91 98765 43210"
-                  autoComplete="tel"
-                  disabled={isLoading}
-                  leftAddon={<PhoneIcon />}
-                />
+              <Input
+                label="Phone (Optional)"
+                type="tel"
+                name="phone"
+                value={formData.phone || ''}
+                onChange={handleInputChange}
+                error={errors.phone}
+                placeholder="+91 98765 43210"
+                autoComplete="tel"
+                disabled={isLoading}
+                leftAddon={<PhoneIcon />}
+              />
 
-                <Input
-                  label="Company (Optional)"
-                  type="text"
-                  name="companyName"
-                  value={formData.companyName || ''}
-                  onChange={handleInputChange}
-                  placeholder="Your company"
-                  autoComplete="organization"
-                  disabled={isLoading}
-                  leftAddon={<BuildingIcon />}
-                />
-              </div>
+              <CompanySearch
+                value={companySearchValue}
+                selectedCompany={selectedCompany}
+                onChange={handleCompanySearchChange}
+                onSelect={handleCompanySelect}
+                onAddNew={handleAddCompanyClick}
+                disabled={isLoading}
+              />
 
               <div className={styles.row}>
                 <Input
@@ -508,6 +532,14 @@ const Signup = memo(function Signup(): JSX.Element {
           </div>
         </div>
       </div>
+
+      {/* Add Company Modal */}
+      <AddCompanyModal
+        isOpen={showAddCompanyModal}
+        initialName={companySearchValue}
+        onClose={() => setShowAddCompanyModal(false)}
+        onSuccess={handleAddCompanySuccess}
+      />
     </div>
   );
 });

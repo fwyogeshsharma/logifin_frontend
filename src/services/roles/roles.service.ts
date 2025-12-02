@@ -8,9 +8,11 @@ import type { ApiResponse } from '@/types/api.types';
  * Role type from API
  */
 export interface Role {
-  id: string;
-  name: string;
+  id: number;
+  roleName: string;
   description?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 /**

@@ -46,13 +46,13 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  email: string;
-  password: string;
   firstName: string;
   lastName: string;
+  email: string;
+  password: string;
   phone?: string;
-  companyName?: string;
-  role?: string; // Role ID from /api/v1/roles (e.g., Role_lender, Role_transporter, Role_shipper)
+  roleId: number;
+  companyId?: number;
 }
 
 export interface AuthUser {
