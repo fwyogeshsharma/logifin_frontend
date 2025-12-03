@@ -1,0 +1,595 @@
+/* src/pages/LenderDashboard/LenderDashboard.module.css */
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #dbeefb;
+  transition: all 0.2s ease;
+}
+
+.statCard:hover {
+  box-shadow: 0 4px 12px rgba(17, 38, 64, 0.08);
+  transform: translateY(-2px);
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  color: white;
+}
+
+.statIconBlue {
+  background: linear-gradient(135deg, #2677ca 0%, #1e5fa3 100%);
+}
+
+.statIconGreen {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.statIconOrange {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.statIconPurple {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.statTrend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.trendUp {
+  color: #059669;
+  background: #d1fae5;
+}
+
+.trendDown {
+  color: #dc2626;
+  background: #fee2e2;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #112640;
+  margin: 0 0 0.25rem;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #5a6b7d;
+  margin: 0;
+}
+
+/* Portfolio Summary */
+.portfolioCard {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.portfolioHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.portfolioTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+  margin: 0 0 0.5rem;
+}
+
+.portfolioValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.portfolioChange {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+.portfolioStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.portfolioStat {
+  text-align: center;
+}
+
+.portfolioStatValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.portfolioStatLabel {
+  font-size: 0.6875rem;
+  opacity: 0.8;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Actions */
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: white;
+  border: 2px solid #dbeefb;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionCard:hover {
+  border-color: #8b5cf6;
+  background: #faf5ff;
+}
+
+.actionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border-radius: 12px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.actionContent {
+  flex: 1;
+}
+
+.actionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #112640;
+  margin: 0 0 0.25rem;
+}
+
+.actionDesc {
+  font-size: 0.8125rem;
+  color: #5a6b7d;
+  margin: 0;
+}
+
+/* Section */
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #112640;
+  margin: 0;
+}
+
+.viewAllLink {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #8b5cf6;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: #7c3aed;
+}
+
+/* Investment Opportunities */
+.opportunitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.opportunityCard {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #dbeefb;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.opportunityCard:hover {
+  box-shadow: 0 4px 12px rgba(17, 38, 64, 0.08);
+  border-color: #8b5cf6;
+}
+
+.opportunityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.opportunityRoute {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #112640;
+}
+
+.opportunityRisk {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 6px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.riskLow {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.riskMedium {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.riskHigh {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.opportunityDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.opportunityDetail {
+  padding: 0.75rem;
+  background: #f8fbfe;
+  border-radius: 8px;
+}
+
+.opportunityDetailLabel {
+  font-size: 0.6875rem;
+  color: #5a6b7d;
+  margin: 0 0 0.25rem;
+  text-transform: uppercase;
+}
+
+.opportunityDetailValue {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #112640;
+  margin: 0;
+}
+
+.opportunityDetailHighlight {
+  color: #10b981;
+}
+
+.opportunityFooter {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.investButton {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.625rem 1rem;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.investButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.detailsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1rem;
+  background: white;
+  border: 2px solid #dbeefb;
+  border-radius: 8px;
+  color: #5a6b7d;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.detailsButton:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+}
+
+/* Table */
+.tableCard {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #dbeefb;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #5a6b7d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #f8fbfe;
+  border-bottom: 1px solid #dbeefb;
+}
+
+.table td {
+  padding: 1rem 1.25rem;
+  font-size: 0.9375rem;
+  color: #112640;
+  border-bottom: 1px solid #f0f7fd;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background: #f8fbfe;
+}
+
+.investmentId {
+  font-weight: 600;
+  color: #8b5cf6;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badgeActive {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.badgePending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.badgeCompleted {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.returnPositive {
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Grid Layout */
+.gridTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Returns Chart Placeholder */
+.chartCard {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #dbeefb;
+  padding: 1.5rem;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartPlaceholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fbfe;
+  border-radius: 12px;
+  color: #8899a8;
+  font-size: 0.875rem;
+}
+
+/* Risk Distribution */
+.riskDistribution {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #dbeefb;
+  padding: 1.5rem;
+}
+
+.riskBars {
+  margin-top: 1rem;
+}
+
+.riskBar {
+  margin-bottom: 1rem;
+}
+
+.riskBar:last-child {
+  margin-bottom: 0;
+}
+
+.riskBarHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.riskBarLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #112640;
+}
+
+.riskBarValue {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #5a6b7d;
+}
+
+.riskBarTrack {
+  height: 8px;
+  background: #f0f7fd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.riskBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.riskBarLow {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+}
+
+.riskBarMedium {
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+}
+
+.riskBarHigh {
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quickActions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gridTwoCol {
+    grid-template-columns: 1fr;
+  }
+
+  .opportunitiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolioStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+  }
+
+  .opportunitiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableCard {
+    overflow-x: auto;
+  }
+
+  .table {
+    min-width: 600px;
+  }
+
+  .portfolioStats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .portfolioHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
