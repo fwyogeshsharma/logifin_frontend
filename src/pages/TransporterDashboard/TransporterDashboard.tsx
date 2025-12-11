@@ -1,10 +1,13 @@
 // src/pages/TransporterDashboard/TransporterDashboard.tsx
 
-import { memo, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { memo, useMemo, useState, useCallback, useEffect } from 'react';
 import { DashboardLayout, type NavSection } from '@/components/layout';
+import { CreateTripModal } from '@/components/forms/CreateTripModal';
+import { tripsService } from '@/services/trips';
+import { authService } from '@/services/auth';
 import { ROUTES } from '@/config/routes';
 import { formatCurrency } from '@/utils';
+import type { Trip } from '@/types/api.types';
 import styles from './TransporterDashboard.module.css';
 
 // Navigation Icons
@@ -65,6 +68,13 @@ const HelpIcon = (): JSX.Element => (
   </svg>
 );
 
+const PlusIcon = (): JSX.Element => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+
 const MapPinIcon = (): JSX.Element => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -79,13 +89,6 @@ const PackageIcon = (): JSX.Element => (
   </svg>
 );
 
-const ClockIcon = (): JSX.Element => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
-);
-
 const ArrowRightIcon = (): JSX.Element => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <line x1="5" y1="12" x2="19" y2="12" />
@@ -93,56 +96,51 @@ const ArrowRightIcon = (): JSX.Element => (
   </svg>
 );
 
-const TrendUpIcon = (): JSX.Element => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+const TrendingUpIcon = (): JSX.Element => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
     <polyline points="17 6 23 6 23 12" />
   </svg>
 );
 
-const TrendDownIcon = (): JSX.Element => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
-    <polyline points="17 18 23 18 23 12" />
+const ClockIcon = (): JSX.Element => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
   </svg>
 );
 
-// Mock data
-const stats = [
-  { label: 'Active Trips', value: '5', trend: 12, icon: <TruckIcon />, color: 'Blue' },
-  { label: 'Available Loads', value: '28', trend: 18, icon: <SearchIcon />, color: 'Green' },
-  { label: 'This Month Earnings', value: formatCurrency(485000), trend: 25, icon: <WalletIcon />, color: 'Orange' },
-  { label: 'Completed Trips', value: '156', trend: 8, icon: <CalendarIcon />, color: 'Purple' },
-];
+const FileTextIcon = (): JSX.Element => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+    <polyline points="10 9 9 9 8 9" />
+  </svg>
+);
 
-const availableLoads = [
-  { id: 'LD-001', from: 'Mumbai', to: 'Pune', amount: 25000, weight: '12 Ton', distance: '150 km', posted: '2 hours ago' },
-  { id: 'LD-002', from: 'Delhi', to: 'Jaipur', amount: 35000, weight: '18 Ton', distance: '280 km', posted: '4 hours ago' },
-  { id: 'LD-003', from: 'Chennai', to: 'Bangalore', amount: 42000, weight: '20 Ton', distance: '350 km', posted: '5 hours ago' },
-  { id: 'LD-004', from: 'Kolkata', to: 'Patna', amount: 28000, weight: '15 Ton', distance: '540 km', posted: '6 hours ago' },
-];
-
-const activeTrips = [
-  { id: 'TR-2024-001', from: 'Mumbai', to: 'Delhi', status: 'En Route', vehicle: 'MH-01-AB-1234', eta: '12 hours' },
-  { id: 'TR-2024-002', from: 'Pune', to: 'Hyderabad', status: 'Loading', vehicle: 'MH-14-CD-5678', eta: '2 days' },
-  { id: 'TR-2024-003', from: 'Chennai', to: 'Coimbatore', status: 'Active', vehicle: 'TN-01-EF-9012', eta: '6 hours' },
-];
-
-const fleetStats = [
-  { label: 'Total Vehicles', value: '12', type: '' },
-  { label: 'On Trip', value: '5', type: 'Active' },
-  { label: 'Available', value: '5', type: 'Idle' },
-  { label: 'Maintenance', value: '2', type: 'Maintenance' },
-];
+const AlertCircleIcon = (): JSX.Element => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+);
 
 const TransporterDashboard = memo(function TransporterDashboard(): JSX.Element {
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'active' | 'completed' | 'pending'>('all');
+
   const navSections: NavSection[] = useMemo(
     () => [
       {
         title: 'Main',
         items: [
           { path: ROUTES.TRANSPORTER_DASHBOARD, label: 'Dashboard', icon: <DashboardIcon /> },
-          { path: ROUTES.TRANSPORTER_LOADS, label: 'Find Loads', icon: <SearchIcon />, badge: 28 },
+          { path: ROUTES.TRANSPORTER_LOADS, label: 'Find Loads', icon: <SearchIcon /> },
           { path: ROUTES.TRANSPORTER_TRIPS, label: 'My Trips', icon: <TruckIcon /> },
           { path: ROUTES.TRANSPORTER_FLEET, label: 'Fleet Management', icon: <CalendarIcon /> },
         ],
@@ -164,20 +162,135 @@ const TransporterDashboard = memo(function TransporterDashboard(): JSX.Element {
     []
   );
 
+  // Fetch trips for the logged-in user
+  const fetchTrips = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      // Get logged-in user from localStorage
+      const user = authService.getUser();
+
+      if (!user || !user.id) {
+        console.error('No user found in localStorage');
+        setIsLoading(false);
+        return;
+      }
+
+      // Fetch trips created by this user
+      const response = await tripsService.getTripsByUserId(user.id);
+
+      if (response.success) {
+        let tripsData: Trip[] = [];
+
+        // Handle different response structures
+        if (Array.isArray(response.data)) {
+          // Case 1: response.data is directly an array
+          tripsData = response.data;
+        } else if (response.data && typeof response.data === 'object') {
+          // Case 2: response.data might have nested structure
+          if (Array.isArray((response.data as any).trips)) {
+            tripsData = (response.data as any).trips;
+          } else if (Array.isArray((response.data as any).data)) {
+            tripsData = (response.data as any).data;
+          } else if (Array.isArray((response.data as any).content)) {
+            tripsData = (response.data as any).content;
+          }
+        }
+
+        setTrips(tripsData);
+      } else {
+        setTrips([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch trips:', error);
+      setTrips([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchTrips();
+  }, [fetchTrips]);
+
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const handleTripCreated = useCallback((trip: Trip) => {
+    setIsModalOpen(false);
+    // Refetch all trips to ensure data is in sync with backend
+    fetchTrips();
+  }, [fetchTrips]);
+
   const getStatusBadgeClass = (status: string): string => {
-    switch (status) {
-      case 'En Route':
-        return styles.badgeEnRoute ?? '';
-      case 'Loading':
-        return styles.badgeLoading ?? '';
-      case 'Active':
-        return styles.badgeActive ?? '';
-      case 'Completed':
-        return styles.badgeCompleted ?? '';
+    switch (status.toUpperCase()) {
+      case 'ACTIVE':
+        return styles.badgeActive;
+      case 'COMPLETED':
+        return styles.badgeCompleted;
+      case 'PENDING':
+        return styles.badgePending;
+      case 'CANCELLED':
+        return styles.badgeCancelled;
       default:
-        return '';
+        return styles.badgeDefault;
     }
   };
+
+  // Calculate comprehensive stats from trips
+  const stats = useMemo(() => {
+    // Ensure trips is an array
+    const tripsArray = Array.isArray(trips) ? trips : [];
+
+    const activeTrips = tripsArray.filter(t => t.status === 'ACTIVE').length;
+    const completedTrips = tripsArray.filter(t => t.status === 'COMPLETED').length;
+    const pendingTrips = tripsArray.filter(t => t.status === 'PENDING').length;
+    const totalEarnings = tripsArray
+      .filter(t => t.status === 'COMPLETED')
+      .reduce((sum, t) => sum + (t.loanAmount || 0), 0);
+    const pendingPayments = tripsArray
+      .filter(t => t.status === 'ACTIVE')
+      .reduce((sum, t) => sum + (t.loanAmount || 0), 0);
+    const avgTripValue = tripsArray.length > 0
+      ? tripsArray.reduce((sum, t) => sum + (t.loanAmount || 0), 0) / tripsArray.length
+      : 0;
+
+    return {
+      totalTrips: tripsArray.length,
+      activeTrips,
+      completedTrips,
+      pendingTrips,
+      totalEarnings,
+      pendingPayments,
+      avgTripValue,
+    };
+  }, [trips]);
+
+  // Filter trips based on selected filter
+  const filteredTrips = useMemo(() => {
+    const tripsArray = Array.isArray(trips) ? trips : [];
+    if (selectedFilter === 'all') return tripsArray;
+    return tripsArray.filter(t => t.status.toLowerCase() === selectedFilter);
+  }, [trips, selectedFilter]);
+
+  // Recent activity
+  const recentActivity = useMemo(() => {
+    const tripsArray = Array.isArray(trips) ? trips : [];
+    return tripsArray
+      .slice(0, 5)
+      .map(trip => ({
+        id: trip.id,
+        title: `Trip from ${trip.pickup} to ${trip.destination}`,
+        status: trip.status,
+        time: 'Just now', // You can calculate actual time if you have createdAt field
+        amount: trip.loanAmount,
+      }));
+  }, [trips]);
 
   return (
     <DashboardLayout
@@ -185,194 +298,341 @@ const TransporterDashboard = memo(function TransporterDashboard(): JSX.Element {
       navSections={navSections}
       roleLabel="Transporter"
     >
-      {/* Stats */}
+      {/* Alert Banner - Financial UI Standard */}
+      {stats.pendingTrips > 0 && (
+        <div className={styles.alertBanner}>
+          <div className={styles.alertIcon}>
+            <AlertCircleIcon />
+          </div>
+          <div className={styles.alertContent}>
+            <h4 className={styles.alertTitle}>Pending Action Required</h4>
+            <p className={styles.alertText}>
+              You have {stats.pendingTrips} trip{stats.pendingTrips > 1 ? 's' : ''} pending approval.
+              Complete documentation to activate.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Primary Stats Grid - Financial UI Standard */}
       <div className={styles.statsGrid}>
-        {stats.map((stat) => (
-          <div key={stat.label} className={styles.statCard}>
-            <div className={styles.statHeader}>
-              <div className={`${styles.statIcon} ${styles[`statIcon${stat.color}`]}`}>
-                {stat.icon}
-              </div>
-              <div className={`${styles.statTrend} ${stat.trend >= 0 ? styles.trendUp : styles.trendDown}`}>
-                {stat.trend >= 0 ? <TrendUpIcon /> : <TrendDownIcon />}
-                {Math.abs(stat.trend)}%
-              </div>
-            </div>
-            <p className={styles.statValue}>{stat.value}</p>
-            <p className={styles.statLabel}>{stat.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Quick Actions */}
-      <div className={styles.quickActions}>
-        <button type="button" className={styles.actionCard}>
-          <div className={styles.actionIcon}>
-            <SearchIcon />
-          </div>
-          <div className={styles.actionContent}>
-            <p className={styles.actionTitle}>Find Loads</p>
-            <p className={styles.actionDesc}>Browse available shipments</p>
-          </div>
-        </button>
-
-        <button type="button" className={styles.actionCard}>
-          <div className={styles.actionIcon}>
+        <div className={styles.statCard}>
+          <div className={`${styles.statIcon} ${styles.statIconBlue}`}>
             <TruckIcon />
           </div>
-          <div className={styles.actionContent}>
-            <p className={styles.actionTitle}>Add Vehicle</p>
-            <p className={styles.actionDesc}>Register a new truck</p>
+          <div className={styles.statContent}>
+            <p className={styles.statValue}>{stats.totalTrips}</p>
+            <p className={styles.statLabel}>Total Trips</p>
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>+12% from last month</span>
+            </div>
           </div>
-        </button>
+        </div>
 
-        <button type="button" className={styles.actionCard}>
-          <div className={styles.actionIcon}>
+        <div className={styles.statCard}>
+          <div className={`${styles.statIcon} ${styles.statIconGreen}`}>
+            <PackageIcon />
+          </div>
+          <div className={styles.statContent}>
+            <p className={styles.statValue}>{stats.activeTrips}</p>
+            <p className={styles.statLabel}>Active Trips</p>
+            <div className={styles.statTrend}>
+              <ClockIcon />
+              <span>In progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={`${styles.statIcon} ${styles.statIconPurple}`}>
+            <CalendarIcon />
+          </div>
+          <div className={styles.statContent}>
+            <p className={styles.statValue}>{stats.completedTrips}</p>
+            <p className={styles.statLabel}>Completed</p>
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>+8% this week</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.statCard}>
+          <div className={`${styles.statIcon} ${styles.statIconOrange}`}>
             <WalletIcon />
           </div>
-          <div className={styles.actionContent}>
-            <p className={styles.actionTitle}>Request Advance</p>
-            <p className={styles.actionDesc}>Get trip financing</p>
-          </div>
-        </button>
-      </div>
-
-      {/* Available Loads */}
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Available Loads Near You</h2>
-          <Link to={ROUTES.TRANSPORTER_LOADS} className={styles.viewAllLink}>
-            View All Loads
-          </Link>
-        </div>
-        <div className={styles.loadsGrid}>
-          {availableLoads.map((load) => (
-            <div key={load.id} className={styles.loadCard}>
-              <div className={styles.loadHeader}>
-                <div className={styles.loadRoute}>
-                  <span>{load.from}</span>
-                  <span className={styles.loadArrow}><ArrowRightIcon /></span>
-                  <span>{load.to}</span>
-                </div>
-                <span className={styles.loadAmount}>{formatCurrency(load.amount)}</span>
-              </div>
-              <div className={styles.loadDetails}>
-                <span className={styles.loadDetail}>
-                  <PackageIcon />
-                  {load.weight}
-                </span>
-                <span className={styles.loadDetail}>
-                  <MapPinIcon />
-                  {load.distance}
-                </span>
-                <span className={styles.loadDetail}>
-                  <ClockIcon />
-                  {load.posted}
-                </span>
-              </div>
-              <div className={styles.loadFooter}>
-                <span className={styles.loadMeta}>ID: {load.id}</span>
-                <button type="button" className={styles.bidButton}>
-                  Place Bid
-                </button>
-              </div>
+          <div className={styles.statContent}>
+            <p className={styles.statValue}>{formatCurrency(stats.totalEarnings)}</p>
+            <p className={styles.statLabel}>Total Earnings</p>
+            <div className={styles.statTrend}>
+              <TrendingUpIcon />
+              <span>+15% from last month</span>
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
-      {/* Two Column Grid */}
-      <div className={styles.gridTwoCol}>
-        {/* Active Trips */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Active Trips</h2>
-            <Link to={ROUTES.TRANSPORTER_TRIPS} className={styles.viewAllLink}>
-              View All
-            </Link>
+      {/* Financial Summary Cards - Two Column Layout */}
+      <div className={styles.summaryGrid}>
+        <div className={styles.summaryCard}>
+          <div className={styles.summaryHeader}>
+            <h3 className={styles.summaryTitle}>Pending Payments</h3>
+            <span className={styles.summaryBadge}>{stats.activeTrips} trips</span>
           </div>
-          <div className={styles.tableCard}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Trip ID</th>
-                  <th>Route</th>
-                  <th>Status</th>
-                  <th>ETA</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeTrips.map((trip) => (
-                  <tr key={trip.id}>
-                    <td className={styles.tripId}>{trip.id}</td>
-                    <td>
-                      <div className={styles.route}>
-                        <span>{trip.from}</span>
-                        <span className={styles.routeArrow}><ArrowRightIcon /></span>
-                        <span>{trip.to}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`${styles.badge} ${getStatusBadgeClass(trip.status)}`}>
-                        {trip.status}
-                      </span>
-                    </td>
-                    <td>{trip.eta}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <p className={styles.summaryAmount}>{formatCurrency(stats.pendingPayments)}</p>
+          <p className={styles.summarySubtext}>Expected within 30 days</p>
+          <div className={styles.summaryProgress}>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${(stats.activeTrips / stats.totalTrips) * 100}%` }}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Fleet & Earnings */}
-        <div className={styles.section}>
-          {/* Fleet Overview */}
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Fleet Overview</h2>
+        <div className={styles.summaryCard}>
+          <div className={styles.summaryHeader}>
+            <h3 className={styles.summaryTitle}>Average Trip Value</h3>
+            <span className={styles.summaryBadgeInfo}>Per trip</span>
           </div>
-          <div className={styles.fleetCard}>
-            <div className={styles.fleetStats}>
-              {fleetStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className={`${styles.fleetStat} ${stat.type ? styles[`fleetStat${stat.type}`] : ''}`}
+          <p className={styles.summaryAmount}>{formatCurrency(stats.avgTripValue)}</p>
+          <p className={styles.summarySubtext}>Based on {stats.totalTrips} total trips</p>
+          <div className={styles.summaryMeta}>
+            <span>Min: {formatCurrency(20000)}</span>
+            <span>Max: {formatCurrency(150000)}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions - Financial UI Standard */}
+      <div className={styles.quickActions}>
+        <h3 className={styles.sectionTitleSmall}>Quick Actions</h3>
+        <div className={styles.actionGrid}>
+          <button
+            type="button"
+            className={styles.actionCard}
+            onClick={handleOpenModal}
+          >
+            <div className={styles.actionIcon}>
+              <PlusIcon />
+            </div>
+            <div className={styles.actionContent}>
+              <h4 className={styles.actionTitle}>Create Trip</h4>
+              <p className={styles.actionText}>Start a new trip request</p>
+            </div>
+          </button>
+
+          <button type="button" className={styles.actionCard}>
+            <div className={styles.actionIcon}>
+              <FileTextIcon />
+            </div>
+            <div className={styles.actionContent}>
+              <h4 className={styles.actionTitle}>Upload Documents</h4>
+              <p className={styles.actionText}>Update trip documents</p>
+            </div>
+          </button>
+
+          <button type="button" className={styles.actionCard}>
+            <div className={styles.actionIcon}>
+              <WalletIcon />
+            </div>
+            <div className={styles.actionContent}>
+              <h4 className={styles.actionTitle}>View Earnings</h4>
+              <p className={styles.actionText}>Check payment history</p>
+            </div>
+          </button>
+
+          <button type="button" className={styles.actionCard}>
+            <div className={styles.actionIcon}>
+              <SearchIcon />
+            </div>
+            <div className={styles.actionContent}>
+              <h4 className={styles.actionTitle}>Find Loads</h4>
+              <p className={styles.actionText}>Browse available loads</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Recent Activity & Trips - Side by Side Layout */}
+      <div className={styles.contentGrid}>
+        {/* Recent Activity */}
+        <div className={styles.activitySection}>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitleSmall}>Recent Activity</h3>
+          </div>
+          <div className={styles.activityList}>
+            {recentActivity.length > 0 ? (
+              recentActivity.map((activity) => (
+                <div key={activity.id} className={styles.activityItem}>
+                  <div className={styles.activityDot} />
+                  <div className={styles.activityContent}>
+                    <h4 className={styles.activityTitle}>{activity.title}</h4>
+                    <p className={styles.activityMeta}>
+                      <span className={`${styles.badge} ${getStatusBadgeClass(activity.status)}`}>
+                        {activity.status}
+                      </span>
+                      <span className={styles.activityTime}>{activity.time}</span>
+                    </p>
+                    <p className={styles.activityAmount}>{formatCurrency(activity.amount)}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className={styles.emptyActivity}>
+                <p>No recent activity</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Trips Section */}
+        <div className={styles.tripsSection}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <h2 className={styles.sectionTitle}>My Trips</h2>
+              <p className={styles.sectionSubtitle}>Manage and track all your trips</p>
+            </div>
+            <button
+              type="button"
+              className={styles.createButton}
+              onClick={handleOpenModal}
+            >
+              <PlusIcon />
+              <span>Create Trip</span>
+            </button>
+          </div>
+
+          {/* Filter Tabs */}
+          <div className={styles.filterTabs}>
+            <button
+              type="button"
+              className={`${styles.filterTab} ${selectedFilter === 'all' ? styles.filterTabActive : ''}`}
+              onClick={() => setSelectedFilter('all')}
+            >
+              All Trips <span className={styles.filterCount}>{stats.totalTrips}</span>
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterTab} ${selectedFilter === 'active' ? styles.filterTabActive : ''}`}
+              onClick={() => setSelectedFilter('active')}
+            >
+              Active <span className={styles.filterCount}>{stats.activeTrips}</span>
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterTab} ${selectedFilter === 'completed' ? styles.filterTabActive : ''}`}
+              onClick={() => setSelectedFilter('completed')}
+            >
+              Completed <span className={styles.filterCount}>{stats.completedTrips}</span>
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterTab} ${selectedFilter === 'pending' ? styles.filterTabActive : ''}`}
+              onClick={() => setSelectedFilter('pending')}
+            >
+              Pending <span className={styles.filterCount}>{stats.pendingTrips}</span>
+            </button>
+          </div>
+
+          {isLoading ? (
+            <div className={styles.loadingState}>
+              <div className={styles.spinner} />
+              <p>Loading trips...</p>
+            </div>
+          ) : filteredTrips.length === 0 ? (
+            <div className={styles.emptyState}>
+              <div className={styles.emptyStateIcon}>
+                <TruckIcon />
+              </div>
+              <h3 className={styles.emptyStateTitle}>No trips found</h3>
+              <p className={styles.emptyStateText}>
+                {selectedFilter === 'all'
+                  ? 'Create your first trip to get started with trip management'
+                  : `No ${selectedFilter} trips at the moment`
+                }
+              </p>
+              {selectedFilter === 'all' && (
+                <button
+                  type="button"
+                  className={styles.emptyStateButton}
+                  onClick={handleOpenModal}
                 >
-                  <p className={styles.fleetStatValue}>{stat.value}</p>
-                  <p className={styles.fleetStatLabel}>{stat.label}</p>
+                  <PlusIcon />
+                  <span>Create Your First Trip</span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className={styles.tripsList}>
+              {filteredTrips.map((trip) => (
+                <div key={trip.id} className={styles.tripCard}>
+                  <div className={styles.tripHeader}>
+                    <div className={styles.tripRoute}>
+                      <div className={styles.tripLocation}>
+                        <MapPinIcon />
+                        <span>{trip.pickup}</span>
+                      </div>
+                      <ArrowRightIcon />
+                      <div className={styles.tripLocation}>
+                        <MapPinIcon />
+                        <span>{trip.destination}</span>
+                      </div>
+                    </div>
+                    <span className={`${styles.badge} ${getStatusBadgeClass(trip.status)}`}>
+                      {trip.status}
+                    </span>
+                  </div>
+
+                  <div className={styles.tripDetails}>
+                    <div className={styles.tripDetailItem}>
+                      <span className={styles.tripDetailLabel}>Document:</span>
+                      <span className={styles.tripDetailValue}>
+                        {trip.documents && trip.documents.length > 0
+                          ? trip.documents[0].documentNumber
+                          : 'N/A'}
+                      </span>
+                    </div>
+                    <div className={styles.tripDetailItem}>
+                      <span className={styles.tripDetailLabel}>Load Type:</span>
+                      <span className={styles.tripDetailValue}>{trip.loadType}</span>
+                    </div>
+                    <div className={styles.tripDetailItem}>
+                      <span className={styles.tripDetailLabel}>Weight:</span>
+                      <span className={styles.tripDetailValue}>{trip.weightKg} kg</span>
+                    </div>
+                    <div className={styles.tripDetailItem}>
+                      <span className={styles.tripDetailLabel}>Distance:</span>
+                      <span className={styles.tripDetailValue}>{trip.distanceKm} km</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.tripFooter}>
+                    <div className={styles.tripAmount}>
+                      <span className={styles.tripAmountLabel}>Loan Amount</span>
+                      <span className={styles.tripAmountValue}>{formatCurrency(trip.loanAmount)}</span>
+                    </div>
+                    <div className={styles.tripMeta}>
+                      <span>{trip.interestRate}% interest</span>
+                      <span>•</span>
+                      <span>{trip.maturityDays} days</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Earnings Card */}
-          <div className={styles.earningsCard} style={{ marginTop: '1rem' }}>
-            <div className={styles.earningsHeader}>
-              <p className={styles.earningsTitle}>Total Earnings</p>
-              <span className={styles.earningsPeriod}>This Month</span>
-            </div>
-            <p className={styles.earningsAmount}>{formatCurrency(485000)}</p>
-            <div className={styles.earningsChange}>
-              <TrendUpIcon />
-              <span>+25% from last month</span>
-            </div>
-            <div className={styles.earningsBreakdown}>
-              <div className={styles.earningsItem}>
-                <p className={styles.earningsItemValue}>23</p>
-                <p className={styles.earningsItemLabel}>Trips</p>
-              </div>
-              <div className={styles.earningsItem}>
-                <p className={styles.earningsItemValue}>8,450 km</p>
-                <p className={styles.earningsItemLabel}>Distance</p>
-              </div>
-              <div className={styles.earningsItem}>
-                <p className={styles.earningsItemValue}>92%</p>
-                <p className={styles.earningsItemLabel}>On-Time</p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
+
+      {/* Create Trip Modal */}
+      <CreateTripModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSuccess={handleTripCreated}
+      />
     </DashboardLayout>
   );
 });

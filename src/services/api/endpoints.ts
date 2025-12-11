@@ -58,4 +58,17 @@ export const ENDPOINTS = {
     BY_ID: (id: number) => `/companies/${id}`,
     SEARCH: '/companies',
   },
+
+  // Trips
+  TRIPS: {
+    BASE: '/trip',
+    BY_ID: (id: string | number) => `/trip/${id}`,
+    LIST: '/trips',
+  },
+
+  // Document Types
+  DOCUMENT_TYPES: {
+    BASE: '/document-types',
+    BY_ID: (id: number) => `/document-types/${id}`,
+  },
 } as const;

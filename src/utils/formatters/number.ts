@@ -9,7 +9,7 @@
  */
 export function formatNumber(
   value: number,
-  locale: string = 'en-US',
+  locale: string = 'en-IN',
   options?: Intl.NumberFormatOptions
 ): string {
   return new Intl.NumberFormat(locale, options).format(value);
@@ -20,8 +20,8 @@ export function formatNumber(
  */
 export function formatCurrency(
   value: number,
-  currency: string = 'USD',
-  locale: string = 'en-US'
+  currency: string = 'INR',
+  locale: string = 'en-IN'
 ): string {
   return new Intl.NumberFormat(locale, {
     style: 'currency',
@@ -35,7 +35,7 @@ export function formatCurrency(
 export function formatPercentage(
   value: number,
   decimals: number = 0,
-  locale: string = 'en-US'
+  locale: string = 'en-IN'
 ): string {
   return new Intl.NumberFormat(locale, {
     style: 'percent',
@@ -49,7 +49,7 @@ export function formatPercentage(
  */
 export function formatCompactNumber(
   value: number,
-  locale: string = 'en-US'
+  locale: string = 'en-IN'
 ): string {
   return new Intl.NumberFormat(locale, {
     notation: 'compact',

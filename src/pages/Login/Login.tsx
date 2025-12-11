@@ -4,7 +4,7 @@ import { memo, useState, useCallback, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input } from '@/components/common';
 import { authService } from '@/services/auth';
-import { ROUTES } from '@/config/routes';
+import { ROUTES, ROLE_DASHBOARD_ROUTES } from '@/config/routes';
 import type { LoginRequest, ApiError } from '@/types/api.types';
 import styles from './Login.module.css';
 
@@ -100,8 +100,11 @@ const Login = memo(function Login(): JSX.Element {
 
       try {
         const response = await authService.login(formData);
-        if (response.success) {
-          navigate(ROUTES.DASHBOARD);
+        if (response.success && response.data) {
+          // Redirect to role-specific dashboard based on user role
+          const userRole = response.data.role;
+          const dashboardRoute = ROLE_DASHBOARD_ROUTES[userRole] || ROUTES.DASHBOARD;
+          navigate(dashboardRoute);
         }
       } catch (error) {
         const apiErr = error as ApiError;

@@ -61,15 +61,24 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   phone?: string;
+  companyId?: number;
   companyName?: string;
+  isCompanyAdmin?: boolean;
   role: string;
 }
 
+// Login response - user data is directly in the response, not nested
 export interface LoginResponse {
   accessToken: string;
-  refreshToken: string;
-  expiresIn?: number;
-  user: AuthUser;
+  tokenType: string;
+  userId: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  companyId?: number;
+  companyName?: string;
+  isCompanyAdmin?: boolean;
 }
 
 export interface RegisterResponse {
@@ -135,4 +144,58 @@ export interface UploadResponse {
   filename: string;
   mimeType: string;
   size: number;
+}
+
+// Document types
+export interface DocumentType {
+  id: number;
+  name: string;
+  description?: string;
+  isRequired?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TripDocument {
+  documentTypeId: number;
+  documentNumber: string;
+  documentBase64: string;
+}
+
+// Trip types
+export interface CreateTripRequest {
+  pickup: string;
+  destination: string;
+  sender: string;
+  receiver: string;
+  transporter: string;
+  loanAmount: number;
+  interestRate: number;
+  maturityDays: number;
+  distanceKm: number;
+  loadType: string;
+  weightKg: number;
+  notes?: string;
+  status: string;
+  documents: TripDocument[];
+}
+
+export interface Trip {
+  id: ID;
+  pickup: string;
+  destination: string;
+  sender: string;
+  receiver: string;
+  transporter: string;
+  loanAmount: number;
+  interestRate: number;
+  maturityDays: number;
+  distanceKm: number;
+  loadType: string;
+  weightKg: number;
+  notes?: string;
+  status: string;
+  documents?: TripDocument[];
+  createdAt?: string;
+  updatedAt?: string;
 }

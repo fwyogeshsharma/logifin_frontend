@@ -14,7 +14,10 @@
       "Bash(cmd /c \"wsl --shutdown\")",
       "WebFetch(domain:34.93.247.3)",
       "Bash(npm run build:*)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(npx tsc:*)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

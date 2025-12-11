@@ -13,6 +13,14 @@ const Terms = lazy(() => import('@/pages/Terms'));
 const Privacy = lazy(() => import('@/pages/Privacy'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
+// Role-specific dashboards
+const ShipperDashboard = lazy(() => import('@/pages/ShipperDashboard'));
+const TransporterDashboard = lazy(() => import('@/pages/TransporterDashboard'));
+const LenderDashboard = lazy(() => import('@/pages/LenderDashboard'));
+
+// Transporter pages
+const CreateTrip = lazy(() => import('@/pages/CreateTrip'));
+
 /**
  * Main App Component
  * Root component that handles routing and global providers
@@ -28,6 +36,20 @@ function App(): JSX.Element {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
+
+          {/* Shipper routes */}
+          <Route path="/shipper" element={<ShipperDashboard />} />
+          <Route path="/shipper/*" element={<ShipperDashboard />} />
+
+          {/* Transporter routes */}
+          <Route path="/transporter" element={<TransporterDashboard />} />
+          <Route path="/transporter/trips/create" element={<CreateTrip />} />
+          <Route path="/transporter/*" element={<TransporterDashboard />} />
+
+          {/* Lender routes */}
+          <Route path="/lender" element={<LenderDashboard />} />
+          <Route path="/lender/*" element={<LenderDashboard />} />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

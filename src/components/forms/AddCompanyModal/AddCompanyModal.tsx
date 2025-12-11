@@ -21,6 +21,21 @@ const BuildingIcon = (): JSX.Element => (
   </svg>
 );
 
+const UploadIcon = (): JSX.Element => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline points="17 8 12 3 7 8" />
+    <line x1="12" y1="3" x2="12" y2="15" />
+  </svg>
+);
+
+const TrashIcon = (): JSX.Element => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+);
+
 interface AddCompanyModalProps {
   isOpen: boolean;
   initialName: string;
@@ -58,7 +73,9 @@ const AddCompanyModal = memo(function AddCompanyModal({
     panNumber: '',
     companyRegistrationNumber: '',
     description: '',
+    logoBase64: '',
   });
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -89,7 +106,9 @@ const AddCompanyModal = memo(function AddCompanyModal({
         panNumber: '',
         companyRegistrationNumber: '',
         description: '',
+        logoBase64: '',
       });
+      setLogoPreview(null);
       setErrors({});
       setApiError(null);
     }
@@ -147,6 +166,46 @@ const AddCompanyModal = memo(function AddCompanyModal({
     },
     []
   );
+
+  const handleLogoChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setErrors((prev) => ({ ...prev, logo: 'Please select an image file' }));
+        return;
+      }
+
+      // Validate file size (max 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setErrors((prev) => ({ ...prev, logo: 'Image size must be less than 2MB' }));
+        return;
+      }
+
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        setLogoPreview(base64);
+        // Remove the data:image/xxx;base64, prefix for API
+        const base64Data = base64.split(',')[1];
+        setFormData((prev) => ({ ...prev, logoBase64: base64Data }));
+        setErrors((prev) => ({ ...prev, logo: '' }));
+      };
+      reader.onerror = () => {
+        setErrors((prev) => ({ ...prev, logo: 'Failed to read image file' }));
+      };
+      reader.readAsDataURL(file);
+    },
+    []
+  );
+
+  const handleRemoveLogo = useCallback(() => {
+    setLogoPreview(null);
+    setFormData((prev) => ({ ...prev, logoBase64: '' }));
+  }, []);
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -215,6 +274,45 @@ const AddCompanyModal = memo(function AddCompanyModal({
 
           <div className={styles.section}>
             <h3 className={styles.sectionTitle}>Basic Information</h3>
+
+            {/* Logo Upload */}
+            <div className={styles.logoSection}>
+              <label className={styles.logoLabel}>Company Logo</label>
+              <div className={styles.logoUploadArea}>
+                {logoPreview ? (
+                  <div className={styles.logoPreviewContainer}>
+                    <img src={logoPreview} alt="Logo preview" className={styles.logoPreview} />
+                    <button
+                      type="button"
+                      className={styles.logoRemoveButton}
+                      onClick={handleRemoveLogo}
+                      disabled={isLoading}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </div>
+                ) : (
+                  <label className={styles.logoUploadLabel}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoChange}
+                      className={styles.logoInput}
+                      disabled={isLoading}
+                    />
+                    <div className={styles.logoUploadContent}>
+                      <div className={styles.logoUploadIcon}>
+                        <UploadIcon />
+                      </div>
+                      <p className={styles.logoUploadText}>Click to upload logo</p>
+                      <p className={styles.logoUploadHint}>PNG, JPG up to 2MB</p>
+                    </div>
+                  </label>
+                )}
+              </div>
+              {errors.logo && <p className={styles.logoError}>{errors.logo}</p>}
+            </div>
+
             <div className={styles.grid}>
               <Input
                 label="Company Name *"

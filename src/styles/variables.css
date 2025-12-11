@@ -1,69 +1,121 @@
 /* src/styles/variables.css */
 
 :root {
-  /* LogiFin Brand Colors - Based on #2677ca */
+  /* LogiFin Brand Colors - Based on Financial UI Standards */
   /* Primary Blue Palette */
-  --color-primary-50: #f0f7fd;
-  --color-primary-100: #dbeefb;
-  --color-primary-200: #bfe0f8;
-  --color-primary-300: #93cdf3;
-  --color-primary-400: #5fb1eb;
-  --color-primary-500: #2677ca;  /* Main brand color */
-  --color-primary-600: #1e5fa3;
-  --color-primary-700: #1a4f88;
-  --color-primary-800: #194470;
-  --color-primary-900: #1a3a5c;
-  --color-primary-950: #112640;
+  --color-primary-50: #EFF6FF;
+  --color-primary-100: #DBEAFE;
+  --color-primary-200: #BFDBFE;
+  --color-primary-300: #93C5FD;
+  --color-primary-400: #60A5FA;
+  --color-primary-500: #3B82F6;  /* Main brand color */
+  --color-primary-600: #2563EB;
+  --color-primary-700: #1D4ED8;
+  --color-primary-800: #1E40AF;
+  --color-primary-900: #1E3A8A;
 
   /* Primary aliases for backward compatibility */
-  --color-primary: #2677ca;
-  --color-primary-hover: #1e5fa3;
-  --color-primary-light: #e8f4fc;
-  --color-primary-dark: #1a4f88;
-  --color-primary-darker: #194470;
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-primary-light: #EFF6FF;
+  --color-primary-dark: #1D4ED8;
+  --color-primary-darker: #1E40AF;
 
   /* Secondary: Lighter blue tones */
-  --color-secondary: #4a91d9;
-  --color-secondary-hover: #2677ca;
-  --color-secondary-light: #dbeefb;
+  --color-secondary: #60A5FA;
+  --color-secondary-hover: #3B82F6;
+  --color-secondary-light: #DBEAFE;
 
-  /* Accent: Complementary teal-blue */
-  --color-accent: #1a8cba;
-  --color-accent-hover: #157a9e;
-  --color-accent-light: #e0f4fa;
+  /* Accent: Complementary */
+  --color-accent: #8B5CF6;
+  --color-accent-hover: #7C3AED;
+  --color-accent-light: #EDE9FE;
 
-  /* Status Colors */
-  --color-success: #22c55e;
-  --color-success-hover: #16a34a;
-  --color-success-light: #dcfce7;
-  --color-danger: #ef4444;
-  --color-danger-hover: #dc2626;
-  --color-danger-light: #fee2e2;
-  --color-warning: #f59e0b;
-  --color-warning-hover: #d97706;
-  --color-warning-light: #fef3c7;
-  --color-info: #2677ca;
-  --color-info-hover: #1e5fa3;
-  --color-info-light: #dbeefb;
+  /* Semantic/Status Colors - Financial UI Standards */
+  /* Success (Green - Profit/Approved) */
+  --color-success-50: #ECFDF5;
+  --color-success-500: #10B981;
+  --color-success-700: #047857;
+  --color-success: #10B981;
+  --color-success-hover: #059669;
+  --color-success-light: #ECFDF5;
 
-  /* Gradients - Blue themed */
-  --gradient-primary: linear-gradient(135deg, #1a4f88 0%, #2677ca 100%);
-  --gradient-secondary: linear-gradient(135deg, #2677ca 0%, #4a91d9 100%);
-  --gradient-hero: linear-gradient(135deg, #112640 0%, #2677ca 100%);
-  --gradient-light: linear-gradient(135deg, #f0f7fd 0%, #dbeefb 100%);
+  /* Error (Red - Loss/Rejected) */
+  --color-error-50: #FEF2F2;
+  --color-error-500: #EF4444;
+  --color-error-700: #B91C1C;
+  --color-danger: #EF4444;
+  --color-danger-hover: #DC2626;
+  --color-danger-light: #FEF2F2;
 
-  --color-text-primary: #212529;
-  --color-text-secondary: #6c757d;
-  --color-text-muted: #adb5bd;
-  --color-text-inverse: #ffffff;
-  --color-background: #ffffff;
-  --color-background-secondary: #f8f9fa;
-  --color-surface: #ffffff;
-  --color-surface-elevated: #ffffff;
-  --color-border: #dee2e6;
-  --color-border-light: #e9ecef;
+  /* Warning (Amber - Pending) */
+  --color-warning-50: #FFFBEB;
+  --color-warning-500: #F59E0B;
+  --color-warning-700: #B45309;
+  --color-warning: #F59E0B;
+  --color-warning-hover: #D97706;
+  --color-warning-light: #FFFBEB;
 
-  /* Spacing */
+  /* Info (Blue - Neutral) */
+  --color-info-50: #EFF6FF;
+  --color-info-500: #3B82F6;
+  --color-info-700: #1D4ED8;
+  --color-info: #3B82F6;
+  --color-info-hover: #2563EB;
+  --color-info-light: #EFF6FF;
+
+  /* Neutral/Gray Scale */
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-400: #9CA3AF;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+  --color-gray-900: #111827;
+
+  /* Gradients - Financial UI themed */
+  --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  --gradient-secondary: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  --gradient-hero: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+  --gradient-light: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  --gradient-success: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  --gradient-danger: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+
+  /* Text Colors */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-text-inverse: #FFFFFF;
+
+  /* Background Colors */
+  --color-background: #FFFFFF;
+  --color-background-secondary: #F9FAFB;
+  --color-background-tertiary: #F3F4F6;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+
+  /* Border Colors */
+  --color-border: #E5E7EB;
+  --color-border-light: #F3F4F6;
+
+  /* Spacing - 8px base system */
+  --spacing-1: 4px;   /* 0.25rem */
+  --spacing-2: 8px;   /* 0.5rem */
+  --spacing-3: 12px;  /* 0.75rem */
+  --spacing-4: 16px;  /* 1rem */
+  --spacing-5: 20px;  /* 1.25rem */
+  --spacing-6: 24px;  /* 1.5rem */
+  --spacing-8: 32px;  /* 2rem */
+  --spacing-10: 40px; /* 2.5rem */
+  --spacing-12: 48px; /* 3rem */
+  --spacing-16: 64px; /* 4rem */
+  --spacing-20: 80px; /* 5rem */
+
+  /* Legacy spacing aliases */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -72,47 +124,60 @@
   --spacing-xxl: 48px;
   --spacing-xxxl: 64px;
 
-  /* Typography */
-  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-family-mono: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', monospace;
+  /* Typography - Financial UI Standards */
+  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Consolas', monospace;
 
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 18px;
-  --font-size-xl: 24px;
-  --font-size-xxl: 32px;
-  --font-size-xxxl: 48px;
+  /* Font Sizes */
+  --font-size-xs: 11px;   /* Caption */
+  --font-size-sm: 12px;   /* Small */
+  --font-size-base: 14px; /* Body */
+  --font-size-md: 14px;   /* Body */
+  --font-size-lg: 16px;   /* Body Large */
+  --font-size-xl: 18px;   /* H4 */
+  --font-size-2xl: 20px;  /* H3 */
+  --font-size-3xl: 24px;  /* H2 */
+  --font-size-4xl: 32px;  /* H1 */
+  --font-size-5xl: 48px;  /* Display/Hero */
 
+  /* Monetary value font sizes */
+  --font-size-monetary: 28px;
+  --font-size-monetary-lg: 32px;
+
+  /* Font Weights */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
+  /* Line Heights */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
 
-  /* Border Radius */
+  /* Border Radius - Financial UI */
   --radius-none: 0;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-full: 9999px;
+  --radius-sm: 4px;   /* Small elements */
+  --radius-md: 8px;   /* Buttons, inputs */
+  --radius-lg: 12px;  /* Cards */
+  --radius-xl: 16px;  /* Modals */
+  --radius-2xl: 24px; /* Large cards */
+  --radius-full: 9999px; /* Pills, avatars */
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  /* Shadows - Financial UI Standards */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
 
   /* Transitions */
   --transition-fast: 150ms ease;
-  --transition-normal: 300ms ease;
-  --transition-slow: 500ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
   --transition-bounce: 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
   /* Z-Index Scale */
@@ -132,17 +197,34 @@
   --container-lg: 960px;
   --container-xl: 1140px;
   --container-xxl: 1320px;
+
+  /* Touch Targets - Accessibility */
+  --touch-target-min: 44px;
+
+  /* Top Navigation Height */
+  --topnav-height: 70px;
 }
 
-/* Dark Theme Variables */
+/* Dark Theme Variables - Financial UI Standards */
 [data-theme='dark'] {
-  --color-text-primary: #f8f9fa;
-  --color-text-secondary: #adb5bd;
-  --color-text-muted: #6c757d;
-  --color-background: #121212;
-  --color-background-secondary: #1e1e1e;
-  --color-surface: #1e1e1e;
-  --color-surface-elevated: #2d2d2d;
-  --color-border: #3d3d3d;
-  --color-border-light: #2d2d2d;
+  /* Dark Mode Colors */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-text-muted: #9CA3AF;
+
+  --color-background: #111827;
+  --color-background-secondary: #1F2937;
+  --color-background-tertiary: #374151;
+  --color-surface: #1F2937;
+  --color-surface-elevated: #374151;
+
+  --color-border: #374151;
+  --color-border-light: #1F2937;
+
+  /* Adjust shadows for dark mode */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
 }

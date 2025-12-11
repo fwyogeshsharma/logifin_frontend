@@ -24,8 +24,21 @@ class AuthService {
     );
 
     if (response.success && response.data) {
-      this.setTokens(response.data.accessToken, response.data.refreshToken);
-      this.setUser(response.data.user);
+      // Store token
+      this.setToken(response.data.accessToken);
+
+      // Build user object from flat response
+      const user: AuthUser = {
+        id: response.data.userId,
+        email: response.data.email,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        role: response.data.role,
+        companyId: response.data.companyId,
+        companyName: response.data.companyName,
+        isCompanyAdmin: response.data.isCompanyAdmin,
+      };
+      this.setUser(user);
     }
 
     return response;
@@ -45,6 +58,10 @@ class AuthService {
     } finally {
       this.clearAuth();
     }
+  }
+
+  setToken(accessToken: string): void {
+    localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, accessToken);
   }
 
   setTokens(accessToken: string, refreshToken: string): void {

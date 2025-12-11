@@ -1,51 +1,8 @@
-/* src/components/forms/AddCompanyModal/AddCompanyModal.module.css */
+/* src/pages/CreateTrip/CreateTrip.module.css */
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(17, 38, 64, 0.6);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 1000;
-  animation: fadeIn 0.2s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal {
-  background: #ffffff;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 640px;
-  max-height: 90vh;
-  overflow: hidden;
-  box-shadow:
-    0 20px 25px -5px rgba(17, 38, 64, 0.1),
-    0 10px 10px -5px rgba(17, 38, 64, 0.04);
-  animation: slideUp 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.container {
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Header */
@@ -53,9 +10,7 @@
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1.5rem;
-  border-bottom: 1px solid #dbeefb;
-  flex-shrink: 0;
+  margin-bottom: 2rem;
 }
 
 .headerIcon {
@@ -71,42 +26,26 @@
 }
 
 .title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #112640;
   margin: 0 0 0.25rem;
 }
 
 .subtitle {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   color: #5a6b7d;
   margin: 0;
 }
 
-.closeButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  margin-left: auto;
-  background: transparent;
-  border: none;
-  color: #8899a8;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.closeButton:hover {
-  background: #f0f7fd;
-  color: #5a6b7d;
-}
-
 /* Form */
 .form {
-  padding: 1.5rem;
-  overflow-y: auto;
-  flex: 1;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow:
+    0 4px 6px -1px rgba(17, 38, 64, 0.08),
+    0 2px 4px -1px rgba(17, 38, 64, 0.04);
 }
 
 .errorAlert {
@@ -124,8 +63,8 @@
 }
 
 .section {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid #f0f7fd;
 }
 
@@ -136,18 +75,18 @@
 }
 
 .sectionTitle {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1e5fa3;
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
-/* Logo Upload */
-.logoSection {
+/* Image Upload */
+.imageUploadSection {
   margin-bottom: 1.5rem;
 }
 
-.logoLabel {
+.imageLabel {
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
@@ -155,88 +94,89 @@
   margin-bottom: 0.5rem;
 }
 
-.logoUploadArea {
+.imageUploadArea {
   display: flex;
   justify-content: center;
 }
 
-.logoUploadLabel {
+.imageUploadLabel {
   display: block;
   width: 100%;
-  max-width: 200px;
+  max-width: 400px;
   cursor: pointer;
 }
 
-.logoInput {
+.imageInput {
   display: none;
 }
 
-.logoUploadContent {
+.imageUploadContent {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 2rem;
   background: #f8fbfe;
   border: 2px dashed #dbeefb;
   border-radius: 12px;
   transition: all 0.2s ease;
 }
 
-.logoUploadLabel:hover .logoUploadContent {
+.imageUploadLabel:hover .imageUploadContent {
   border-color: #2677ca;
   background: #f0f7fd;
 }
 
-.logoUploadIcon {
+.imageUploadIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   background: #dbeefb;
   border-radius: 12px;
   color: #2677ca;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-.logoUploadText {
-  font-size: 0.875rem;
+.imageUploadText {
+  font-size: 0.9375rem;
   font-weight: 500;
   color: #112640;
   margin: 0 0 0.25rem;
 }
 
-.logoUploadHint {
-  font-size: 0.75rem;
+.imageUploadHint {
+  font-size: 0.875rem;
   color: #8899a8;
   margin: 0;
 }
 
-.logoPreviewContainer {
+.imagePreviewContainer {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  max-width: 400px;
 }
 
-.logoPreview {
+.imagePreview {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 300px;
   object-fit: contain;
   border-radius: 12px;
   border: 2px solid #dbeefb;
   background: white;
 }
 
-.logoRemoveButton {
+.imageRemoveButton {
   position: absolute;
   top: -8px;
   right: -8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   background: #dc2626;
   border: 2px solid white;
   border-radius: 50%;
@@ -245,17 +185,17 @@
   transition: all 0.2s ease;
 }
 
-.logoRemoveButton:hover {
+.imageRemoveButton:hover {
   background: #b91c1c;
   transform: scale(1.1);
 }
 
-.logoRemoveButton:disabled {
+.imageRemoveButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.logoError {
+.imageError {
   font-size: 0.75rem;
   color: #dc2626;
   margin: 0.5rem 0 0;
@@ -319,36 +259,23 @@
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  padding-top: 1.5rem;
-  margin-top: 1.5rem;
+  padding-top: 2rem;
+  margin-top: 2rem;
   border-top: 1px solid #dbeefb;
 }
 
 /* Responsive */
-@media (max-width: 640px) {
-  .overlay {
-    padding: 0;
-    align-items: flex-end;
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
   }
 
-  .modal {
-    max-width: 100%;
-    max-height: 95vh;
-    border-radius: 16px 16px 0 0;
-    animation: slideUpMobile 0.3s ease;
-  }
-
-  @keyframes slideUpMobile {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
+  .form {
+    padding: 1.5rem;
   }
 
   .header {
-    padding: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .headerIcon {
@@ -357,11 +284,7 @@
   }
 
   .title {
-    font-size: 1.125rem;
-  }
-
-  .form {
-    padding: 1.25rem;
+    font-size: 1.25rem;
   }
 
   .grid {
