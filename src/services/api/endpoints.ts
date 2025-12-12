@@ -23,6 +23,8 @@ export const ENDPOINTS = {
     ME: '/users/me',
     BY_ID: (id: string | number) => `/users/${id}`,
     AVATAR: (id: string | number) => `/users/${id}/avatar`,
+    UPDATE_ROLE: (id: string | number) => `/users/${id}/role`,
+    DELETE: (id: string | number) => `/users/${id}`,
   },
 
   // Dashboard

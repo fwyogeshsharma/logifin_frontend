@@ -72,6 +72,13 @@ export const ROUTES = {
   LENDER_INVESTMENTS: '/lender/investments',
   LENDER_RETURNS: '/lender/returns',
   LENDER_ANALYTICS: '/lender/analytics',
+
+  // Super Admin routes
+  SUPER_ADMIN_DASHBOARD: '/admin',
+  SUPER_ADMIN_USERS: '/admin/users',
+  SUPER_ADMIN_COMPANIES: '/admin/companies',
+  SUPER_ADMIN_TRIPS: '/admin/trips',
+  SUPER_ADMIN_ROLES: '/admin/roles',
 } as const;
 
 // Role to dashboard route mapping
@@ -79,6 +86,8 @@ export const ROLE_DASHBOARD_ROUTES: Record<string, string> = {
   ROLE_SHIPPER: ROUTES.SHIPPER_DASHBOARD,
   ROLE_TRANSPORTER: ROUTES.TRANSPORTER_DASHBOARD,
   ROLE_LENDER: ROUTES.LENDER_DASHBOARD,
+  ROLE_SUPER_ADMIN: ROUTES.SUPER_ADMIN_DASHBOARD,
+  ROLE_ADMIN: ROUTES.SUPER_ADMIN_DASHBOARD,
 };
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];

@@ -107,8 +107,8 @@ export const DashboardLayout = memo(function DashboardLayout({
     setProfileDropdownOpen((prev) => !prev);
   }, []);
 
-  const handleLogout = useCallback(async () => {
-    await authService.logout();
+  const handleLogout = useCallback(() => {
+    authService.logout();
     navigate(ROUTES.LOGIN);
   }, [navigate]);
 

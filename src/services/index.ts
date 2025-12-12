@@ -6,3 +6,4 @@ export * from './roles';
 export * from './companies';
 export * from './trips';
 export * from './documentTypes';
+export * from './users';

@@ -17,6 +17,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const ShipperDashboard = lazy(() => import('@/pages/ShipperDashboard'));
 const TransporterDashboard = lazy(() => import('@/pages/TransporterDashboard'));
 const LenderDashboard = lazy(() => import('@/pages/LenderDashboard'));
+const SuperAdminDashboard = lazy(() => import('@/pages/SuperAdminDashboard'));
 
 // Transporter pages
 const CreateTrip = lazy(() => import('@/pages/CreateTrip'));
@@ -49,6 +50,10 @@ function App(): JSX.Element {
           {/* Lender routes */}
           <Route path="/lender" element={<LenderDashboard />} />
           <Route path="/lender/*" element={<LenderDashboard />} />
+
+          {/* Super Admin routes */}
+          <Route path="/admin" element={<SuperAdminDashboard />} />
+          <Route path="/admin/*" element={<SuperAdminDashboard />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

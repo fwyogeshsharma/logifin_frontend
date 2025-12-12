@@ -52,12 +52,10 @@ class AuthService {
     return response;
   }
 
-  async logout(): Promise<void> {
-    try {
-      await apiClient.post(ENDPOINTS.AUTH.LOGOUT);
-    } finally {
-      this.clearAuth();
-    }
+  logout(): void {
+    // Clear authentication data from localStorage
+    // No backend API call needed - token invalidation happens on backend via expiry
+    this.clearAuth();
   }
 
   setToken(accessToken: string): void {
